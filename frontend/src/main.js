@@ -15,11 +15,10 @@ function createtable (arr) {
   }
 }
 
-$("roomForm").submit(){
-  event.preventDefault()
-  socket.emit('create', $("selectedRoom").innerHTML)
-}
-
 $(document).ready(function () {
   console.log('ready!')
+  $("#roomForm").submit(function (event){
+      socket.emit('create', $("#selectedRoom").value)
+      event.preventDefault()
+  })
 })

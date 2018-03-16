@@ -12,7 +12,7 @@ function onConnect (socket) {
   socket.emit('rooms', rooms)
 }
 
-export var startServer = function (port) {
+exports.startServer = function (port) {
   // Statically serve frontend.
   app.use(express.static('frontend/dist'))
 
