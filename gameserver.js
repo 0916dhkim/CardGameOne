@@ -11,11 +11,11 @@ function onCreate (data, socket) {
   // Check if the requested name already exists on the server.
   if (rooms.includes(data)) {
     // Room already exists.
-    socket.emit('create', {success: false, roomname: ''})
+    socket.emit('create', {success: false, url: ''})
   } else {
     // Room name is available.
     rooms.push(data)
-    socket.emit('create', {success: true, roomname: data})
+    socket.emit('create', {success: true, url: '/room/' + data})
     console.log('Room ' + data + ' is created.')
   }
 }
