@@ -1,4 +1,14 @@
 import $ from "jquery"
+import io from 'socket.io-client'
+
+const socket = io ({
+  transports:['websocket']
+})
+
+socket.on('rooms', (data)=>{
+  createtable(data);
+})
+
 function createtable(arr) {
     for (var j = 0; j < arr.length; j++) {
             $("#tab").append("<tr><td>" + arr[j] + " </td></tr>");
@@ -7,6 +17,4 @@ function createtable(arr) {
 
 $( document ).ready(function() {
     console.log( "ready!" );
-    var arr = [1,2,3]
-    createtable(arr);
 });
