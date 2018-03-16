@@ -9,6 +9,14 @@ socket.on('rooms', (data) => {
   createtable(data)
 })
 
+socket.on('create', (data) => {
+  if(data.success){
+    window.location.href = data.url
+  } else {
+    alert("Room cannot be created - Try another room name")
+  }
+})
+
 function createtable (arr) {
   for (var j = 0; j < arr.length; j++) {
     $('#tab').append('<tr><td>' + arr[j] + ' </td></tr>')
