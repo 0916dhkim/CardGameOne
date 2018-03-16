@@ -17,8 +17,8 @@ function createtable (arr) {
 
 $(document).ready(function () {
   console.log('ready!')
-  $("#roomForm").submit(function (event){
-      socket.emit('create', $("#selectedRoom").value)
-      event.preventDefault()
+  $('#roomForm').submit(function (event) {
+    socket.emit('create', $('#selectedRoom').val())
+    event.preventDefault()
   })
 })

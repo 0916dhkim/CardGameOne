@@ -9,7 +9,7 @@ var rooms = []
 
 function onCreate (data, socket) {
   // Check if the requested name already exists on the server.
-  if(rooms.includes(data)) {
+  if (rooms.includes(data)) {
     // Room already exists.
     socket.emit('create', {success: false, roomname: ''})
   } else {
