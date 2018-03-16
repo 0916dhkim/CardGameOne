@@ -57,3 +57,5 @@ typings/
 # dotenv environment variables file
 .env
 
+# build output files
+frontend/dist/*.js
