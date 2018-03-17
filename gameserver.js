@@ -8,10 +8,12 @@ const io = require('socket.io')(server, {
 var rooms = []
 
 function onCreate (data, socket) {
+  console.log(socket.id + ': create request for room name: ' + data)
   // Check if the requested name already exists on the server.
   if (rooms.includes(data)) {
     // Room already exists.
     socket.emit('create', {success: false, url: ''})
+    console.log(socket.id + ': create request failed.')
   } else {
     // Room name is available.
     // Add the room name to the array.
@@ -21,23 +23,27 @@ function onCreate (data, socket) {
 
     // Notify all users on the server that a new room is created.
     socket.broadcast.emit('rooms', rooms)
-    console.log('Room ' + data + ' is created.')
+    console.log(socket.id + ': create request succeeded.')
   }
 }
 
 function onJoin (data, socket) {
+  console.log(socket.id + ': join request for room name: ' + data)
   // Check if the requested room exists.
   if (rooms.includes(data)) {
     // Room exists.
     // Response with the room url.
     socket.emit('join', {sucess: true, url: '/room/' + data})
+    console.log(socket.id + ': join request succeeded.')
   } else {
     // Room does not exist.
     socket.emit('join', {success: false, url: ''})
+    console.log(socket.id + ': join request failed.')
   }
 }
 
 function onConnect (socket) {
+  console.log(socket.id + ': connected')
   // Emit the list of rooms on server.
   socket.emit('rooms', rooms)
 
