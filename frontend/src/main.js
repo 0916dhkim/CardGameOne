@@ -17,13 +17,22 @@ socket.on('create', (data) => {
   }
 })
 
+socket.on('join', (data) => {
+  if (data.success) {
+    window.location.href = data.url
+  } else {
+    window.alert('The room is full - Try another room')
+  }
+})
+
 function createtable (arr) {
   $('#tab').empty()
   for (var j = 0; j < arr.length; j++) {
     $('#tab').append('<tr><td><a href="" id="' + arr[j] + '">' + arr[j] + '</a></td></tr>')
     // $('#tab').append('<tr><td>' + arr[j] + ' </td></tr>')
-    $('#' + arr[j]).click(function () {
-      socket.emit('join', arr[j])
+    $('#' + arr[j]).click(function (event) {
+      socket.emit('join', event.target.innerHTML)
+      console.log(event.target.innerHTML)
     })
   }
 }
