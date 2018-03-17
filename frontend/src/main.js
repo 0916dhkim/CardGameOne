@@ -20,7 +20,7 @@ socket.on('create', (data) => {
 function createtable (arr) {
   $('#tab').empty()
   for (var j = 0; j < arr.length; j++) {
-    $('#tab').append('<tr><td><a href="" id="' + arr[j] + '">' + arr[j] + '</a><br></td></tr>')
+    $('#tab').append('<tr><td><a href="" id="' + arr[j] + '">' + arr[j] + '</a></td></tr>')
     // $('#tab').append('<tr><td>' + arr[j] + ' </td></tr>')
     $('#' + arr[j]).click(function () {
       socket.emit('join', arr[j])
