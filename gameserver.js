@@ -25,11 +25,24 @@ function onCreate (data, socket) {
   }
 }
 
+function onJoin (data, socket) {
+  // Check if the requested room exists.
+  if (rooms.includes(data)) {
+    // Room exists.
+    // Response with the room url.
+    socket.emit('join', {sucess: true, url: '/room/' + data})
+  } else {
+    // Room does not exist.
+    socket.emit('join', {success: false, url: ''})
+  }
+}
+
 function onConnect (socket) {
   // Emit the list of rooms on server.
   socket.emit('rooms', rooms)
 
   socket.on('create', (data) => onCreate(data, socket))
+  socket.on('join', (data) => onJoin(data, socket))
 }
 
 exports.startServer = function (port) {
