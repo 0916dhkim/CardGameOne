@@ -33,7 +33,7 @@ function onJoin (data, socket) {
   if (rooms.includes(data)) {
     // Room exists.
     // Response with the room url.
-    socket.emit('join', {sucess: true, url: '/room/' + data})
+    socket.emit('join', {success: true, url: '/room/' + data})
     console.log(socket.id + ': join request succeeded.')
   } else {
     // Room does not exist.
