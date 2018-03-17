@@ -10,16 +10,21 @@ socket.on('rooms', (data) => {
 })
 
 socket.on('create', (data) => {
-  if(data.success){
+  if (data.success) {
     window.location.href = data.url
   } else {
-    alert("Room cannot be created - Try another room name")
+    window.alert('Room cannot be created - Try another room name')
   }
 })
 
 function createtable (arr) {
+  $('#tab').empty()
   for (var j = 0; j < arr.length; j++) {
-    $('#tab').append('<tr><td>' + arr[j] + ' </td></tr>')
+    $('#tab').append('<tr><td><a href="" id="' + arr[j] + '">' + arr[j] + '</a><br></td></tr>')
+    // $('#tab').append('<tr><td>' + arr[j] + ' </td></tr>')
+    $('#' + arr[j]).click(function () {
+      socket.emit('join', arr[j])
+    })
   }
 }
 
