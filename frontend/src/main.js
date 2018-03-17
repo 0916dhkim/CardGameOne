@@ -33,6 +33,7 @@ function createtable (arr) {
     $('#' + arr[j]).click(function (event) {
       socket.emit('join', event.target.innerHTML)
       console.log(event.target.innerHTML)
+      event.preventDefault()
     })
   }
 }
