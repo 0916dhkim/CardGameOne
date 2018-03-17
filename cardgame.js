@@ -117,6 +117,11 @@ exports.beginGame = function (game) {
   // TODO Determine initial player
 }
 
+// Attempt to place cardsToPlay on top of the stack.
+// If the move is valid, remove cards from the current player's hand
+// and push cards to the stack.
+// Return true if the move was successful.
+// Return false otherwise.
 exports.playTurn = function (game, cardsToPlay, jockerAs) {
   var c
 
