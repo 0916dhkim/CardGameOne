@@ -27,14 +27,28 @@ socket.on('join', (data) => {
 
 function createtable (arr) {
   $('#tab').empty()
+  // Create header.
+  var header = $('<tr></tr>')
+  header.append('<td>Name</td>')
+  header.append('<td>Players</td')
+  $('#tab').append(header)
+
   for (var j = 0; j < arr.length; j++) {
-    $('#tab').append('<tr><td><a href="" id="' + arr[j] + '">' + arr[j] + '</a></td></tr>')
-    // $('#tab').append('<tr><td>' + arr[j] + ' </td></tr>')
-    $('#' + arr[j]).click(function (event) {
+    var row = $('<tr></tr>')
+    var roomname = rooms[name]
+    var roomcell = $('<td></td>')
+    var roomanchor = $('<a></a>')
+
+    roomanchor.attr('id', roomname)
+    roomanchor.click((event) => {
       socket.emit('join', event.target.innerHTML)
-      console.log(event.target.innerHTML)
       event.preventDefault()
     })
+
+    roomanchor.append(roomname)
+    roomcell.append(roomanchor)
+    row.append(roomcell)
+    $('#tab').append(row)
   }
 }
 
