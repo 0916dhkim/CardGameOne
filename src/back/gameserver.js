@@ -30,7 +30,7 @@ function onCreate (data, socket) {
     socket.emit('create', {success: true, url: '/room/' + data})
 
     // Notify all users on the server that a new room is created.
-    socket.broadcast.emit('rooms', Object.keys(rooms))
+    socket.broadcast.emit('rooms', rooms)
     console.log(socket.id + ': create request succeeded.')
   }
 }
@@ -53,7 +53,7 @@ function onJoin (data, socket) {
 function onConnect (socket) {
   console.log(socket.id + ': connected')
   // Emit the list of rooms on server.
-  socket.emit('rooms', Object.keys(rooms))
+  socket.emit('rooms', rooms)
 
   socket.on('create', (data) => onCreate(data, socket))
   socket.on('join', (data) => onJoin(data, socket))

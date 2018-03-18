@@ -25,7 +25,7 @@ socket.on('join', (data) => {
   }
 })
 
-function createtable (arr) {
+function createtable (rooms) {
   $('#tab').empty()
   // Create header.
   var header = $('<tr></tr>')
@@ -33,9 +33,8 @@ function createtable (arr) {
   header.append('<td>Players</td')
   $('#tab').append(header)
 
-  for (var j = 0; j < arr.length; j++) {
+  for (var roomname in rooms) {
     var row = $('<tr></tr>')
-    var roomname = rooms[name]
     var roomcell = $('<td></td>')
     var roomanchor = $('<a></a>')
 
