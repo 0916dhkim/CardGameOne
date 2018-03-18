@@ -5,24 +5,31 @@ const io = require('socket.io')(server, {
   pingTimeout: 3000
 })
 
-var rooms = []
+var rooms = {}
+
+function createRoom (roomname) {
+  var ret = {}
+  ret.name = roomname
+
+  return ret
+}
 
 function onCreate (data, socket) {
   console.log(socket.id + ': create request for room name: ' + data)
   // Check if the requested name already exists on the server.
-  if (rooms.includes(data)) {
+  if (rooms[data] !== undefined) {
     // Room already exists.
     socket.emit('create', {success: false, url: ''})
     console.log(socket.id + ': create request failed.')
   } else {
     // Room name is available.
     // Add the room name to the array.
-    rooms.push(data)
+    rooms[data] = createRoom(data)
     // Response with the room url.
     socket.emit('create', {success: true, url: '/room/' + data})
 
     // Notify all users on the server that a new room is created.
-    socket.broadcast.emit('rooms', rooms)
+    socket.broadcast.emit('rooms', rooms.keys())
     console.log(socket.id + ': create request succeeded.')
   }
 }
@@ -30,7 +37,7 @@ function onCreate (data, socket) {
 function onJoin (data, socket) {
   console.log(socket.id + ': join request for room name: ' + data)
   // Check if the requested room exists.
-  if (rooms.includes(data)) {
+  if (rooms[data] !== undefined) {
     // Room exists.
     // Response with the room url.
     socket.emit('join', {success: true, url: '/room/' + data})
@@ -45,7 +52,7 @@ function onJoin (data, socket) {
 function onConnect (socket) {
   console.log(socket.id + ': connected')
   // Emit the list of rooms on server.
-  socket.emit('rooms', rooms)
+  socket.emit('rooms', rooms.keys())
 
   socket.on('create', (data) => onCreate(data, socket))
   socket.on('join', (data) => onJoin(data, socket))
