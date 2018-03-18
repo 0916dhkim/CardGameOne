@@ -1,3 +1,4 @@
+const path = require('path')
 const express = require('express')
 const app = express()
 const server = require('http').Server(app)
@@ -29,7 +30,7 @@ function onCreate (data, socket) {
     socket.emit('create', {success: true, url: '/room/' + data})
 
     // Notify all users on the server that a new room is created.
-    socket.broadcast.emit('rooms', rooms.keys())
+    socket.broadcast.emit('rooms', Object.keys(rooms))
     console.log(socket.id + ': create request succeeded.')
   }
 }
@@ -52,7 +53,7 @@ function onJoin (data, socket) {
 function onConnect (socket) {
   console.log(socket.id + ': connected')
   // Emit the list of rooms on server.
-  socket.emit('rooms', rooms.keys())
+  socket.emit('rooms', Object.keys(rooms))
 
   socket.on('create', (data) => onCreate(data, socket))
   socket.on('join', (data) => onJoin(data, socket))
@@ -60,9 +61,9 @@ function onConnect (socket) {
 
 exports.startServer = function (port) {
   // Statically serve frontend.
-  app.use(express.static('frontend/dist'))
+  app.use(express.static('dist'))
   app.get('/room/:roomName', function (req, res, next) {
-    res.sendFile('frontend/dist/room.html', {root: __dirname})
+    res.sendFile(path.resolve(path.dirname(require.main.filename), 'dist', 'room.html'))
   })
 
   io.on('connect', onConnect)
