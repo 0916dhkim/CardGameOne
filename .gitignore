@@ -58,4 +58,4 @@ typings/
 .env
 
 # build output files
-frontend/dist/*.js
+dist/*.js
