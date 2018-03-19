@@ -40,6 +40,7 @@ function createtable (rooms) {
     var roomanchor = $('<a></a>')
 
     roomanchor.attr('id', roomname)
+    roomanchor.attr('href', '')
     roomanchor.click((event) => {
       socket.emit(conf.JOIN_CHANNEL, event.target.innerHTML)
       event.preventDefault()
