@@ -1,3 +1,4 @@
+const conf = require('../config.js')
 const path = require('path')
 const express = require('express')
 const app = express()
@@ -20,17 +21,17 @@ function onCreate (data, socket) {
   // Check if the requested name already exists on the server.
   if (rooms[data] !== undefined) {
     // Room already exists.
-    socket.emit('create', {success: false, url: ''})
+    socket.emit(conf.CREATE_CHANNEL, {success: false, url: ''})
     console.log(socket.id + ': create request failed.')
   } else {
     // Room name is available.
     // Add the room name to the array.
     rooms[data] = createRoom(data)
     // Response with the room url.
-    socket.emit('create', {success: true, url: '/room/' + data})
+    socket.emit(conf.CREATE_CHANNEL, {success: true, url: '/room/' + data})
 
     // Notify all users on the server that a new room is created.
-    socket.broadcast.emit('rooms', rooms)
+    socket.broadcast.emit(conf.ROOMS_CHANNEL, rooms)
     console.log(socket.id + ': create request succeeded.')
   }
 }
@@ -41,11 +42,11 @@ function onJoin (data, socket) {
   if (rooms[data] !== undefined) {
     // Room exists.
     // Response with the room url.
-    socket.emit('join', {success: true, url: '/room/' + data})
+    socket.emit(conf.JOIN_CHANNEL, {success: true, url: '/room/' + data})
     console.log(socket.id + ': join request succeeded.')
   } else {
     // Room does not exist.
-    socket.emit('join', {success: false, url: ''})
+    socket.emit(conf.JOIN_CHANNEL, {success: false, url: ''})
     console.log(socket.id + ': join request failed.')
   }
 }
@@ -53,10 +54,10 @@ function onJoin (data, socket) {
 function onConnect (socket) {
   console.log(socket.id + ': connected')
   // Emit the list of rooms on server.
-  socket.emit('rooms', rooms)
+  socket.emit(conf.ROOMS_CHANNEL, rooms)
 
-  socket.on('create', (data) => onCreate(data, socket))
-  socket.on('join', (data) => onJoin(data, socket))
+  socket.on(conf.CREATE_CHANNEL, (data) => onCreate(data, socket))
+  socket.on(conf.JOIN_CHANNEL, (data) => onJoin(data, socket))
 }
 
 exports.startServer = function (port) {

@@ -1,15 +1,16 @@
 import $ from 'jquery'
 import io from 'socket.io-client'
+import conf from '../config.js'
 
 const socket = io({
   transports: ['websocket']
 })
 
-socket.on('rooms', (data) => {
+socket.on(conf.ROOMS_CHANNEL, (data) => {
   createtable(data)
 })
 
-socket.on('create', (data) => {
+socket.on(conf.CREATE_CHANNEL, (data) => {
   if (data.success) {
     window.location.href = data.url
   } else {
@@ -17,7 +18,7 @@ socket.on('create', (data) => {
   }
 })
 
-socket.on('join', (data) => {
+socket.on(conf.JOIN_CHANNEL, (data) => {
   if (data.success) {
     window.location.href = data.url
   } else {
@@ -40,7 +41,7 @@ function createtable (rooms) {
 
     roomanchor.attr('id', roomname)
     roomanchor.click((event) => {
-      socket.emit('join', event.target.innerHTML)
+      socket.emit(conf.JOIN_CHANNEL, event.target.innerHTML)
       event.preventDefault()
     })
 
@@ -54,7 +55,7 @@ function createtable (rooms) {
 $(document).ready(function () {
   console.log('ready!')
   $('#roomForm').submit(function (event) {
-    socket.emit('create', $('#selectedRoom').val())
+    socket.emit(conf.CREATE_CHANNEL, $('#selectedRoom').val())
     event.preventDefault()
   })
 })
