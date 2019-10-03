@@ -1,5 +1,5 @@
 function createCard (suit, rank) {
-  return {suit: suit, rank: rank}
+  return { suit: suit, rank: rank }
 }
 
 function createSuit (suit) {

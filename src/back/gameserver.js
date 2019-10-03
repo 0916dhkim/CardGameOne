@@ -21,14 +21,14 @@ function onCreate (data, socket) {
   // Check if the requested name already exists on the server.
   if (rooms[data] !== undefined) {
     // Room already exists.
-    socket.emit(conf.CREATE_CHANNEL, {success: false, url: ''})
+    socket.emit(conf.CREATE_CHANNEL, { success: false, url: '' })
     console.log(socket.id + ': create request failed.')
   } else {
     // Room name is available.
     // Add the room name to the array.
     rooms[data] = createRoom(data)
     // Response with the room url.
-    socket.emit(conf.CREATE_CHANNEL, {success: true, url: '/room/' + data})
+    socket.emit(conf.CREATE_CHANNEL, { success: true, url: '/room/' + data })
 
     // Notify all users on the server that a new room is created.
     socket.broadcast.emit(conf.ROOMS_CHANNEL, rooms)
@@ -42,11 +42,11 @@ function onJoin (data, socket) {
   if (rooms[data] !== undefined) {
     // Room exists.
     // Response with the room url.
-    socket.emit(conf.JOIN_CHANNEL, {success: true, url: '/room/' + data})
+    socket.emit(conf.JOIN_CHANNEL, { success: true, url: '/room/' + data })
     console.log(socket.id + ': join request succeeded.')
   } else {
     // Room does not exist.
-    socket.emit(conf.JOIN_CHANNEL, {success: false, url: ''})
+    socket.emit(conf.JOIN_CHANNEL, { success: false, url: '' })
     console.log(socket.id + ': join request failed.')
   }
 }
