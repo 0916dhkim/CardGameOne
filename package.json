@@ -22,7 +22,7 @@
   "homepage": "https://github.com/0916dhkim/CardGameOne#readme",
   "dependencies": {
     "express": "^4.17.1",
-    "jquery": "^3.4.1",
+    "jquery": "^3.5.0",
     "socket.io": "^2.3.0"
   },
   "devDependencies": {
